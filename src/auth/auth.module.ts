@@ -8,6 +8,8 @@ import { UserRepository } from 'users/repositories/user-repository';
 import { UserRepositoryPrisma } from 'users/repositories/prisma/user-repository';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from 'auth/auth.guard';
+import { JwtStrategy } from './jwt.strategy';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Module({
   imports: [
@@ -21,6 +23,7 @@ import { AuthGuard } from 'auth/auth.guard';
   providers: [
     AuthService,
     PrismaService,
+    JwtStrategy,
     {
       provide: UserRepository,
       useClass: UserRepositoryPrisma,
@@ -28,6 +31,10 @@ import { AuthGuard } from 'auth/auth.guard';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
     },
   ],
 })
