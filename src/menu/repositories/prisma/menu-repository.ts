@@ -6,13 +6,13 @@ import { Menu } from 'menu/entities/menu.entity';
 @Injectable()
 export class MenuRepositoryPrisma implements MenuRepository {
   constructor(private readonly prisma: PrismaService) {}
-  async create(data: Menu): Promise<void> {
+  async create(menu: Menu): Promise<void> {
     try {
       await this.prisma.menu.create({
         data: {
-          id: data.id,
-          name: data.name,
-          userId: data.userId,
+          id: menu.id,
+          name: menu.name,
+          userId: menu.userId,
         },
       });
     } catch (error) {
