@@ -13,10 +13,61 @@ datasource db {
 model User {
   id        String   @id
   email     String   @unique
-  name      String?
+  name      String
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Menu      Menu[]
 
   @@map("users")
+}
+
+model Menu {
+  id              String            @id
+  name            String
+  User            User              @relation(fields: [userId], references: [id])
+  userId          String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  MenusOnProducts MenusOnProducts[]
+
+  @@map("menus")
+}
+
+model Product {
+  id              String            @id
+  name            String
+  price           Float
+  description     String
+  Category        Category          @relation(fields: [categoryId], references: [id])
+  categoryId      String
+  image           String
+  status          Boolean
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  MenusOnProducts MenusOnProducts[]
+
+  @@map("products")
+}
+
+model MenusOnProducts {
+  id        String   @id
+  Menu      Menu     @relation(fields: [menuId], references: [id])
+  menuId    String
+  Product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("menus_on_products")
+}
+
+model Category {
+  id        String    @id
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Product   Product[]
+
+  @@map("categories")
 }
