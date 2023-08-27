@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UserRepository } from './repositories/user-repository';
-import { FindByEmailDto } from './dto/find-by-email-dto';
+import { FindByEmailDto } from './dto/find-by-email.dto';
 
 @Injectable()
 export class UsersService {

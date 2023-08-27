@@ -7,7 +7,7 @@ import { PrismaService } from 'database/prisma.service';
 import { User } from 'users/entities/user.entity';
 import { UserRepository } from '../user-repository';
 import { UpdateUserDto } from 'users/dto/update-user.dto';
-import { FindByEmailDto } from 'users/dto/find-by-email-dto';
+import { FindByEmailDto } from 'users/dto/find-by-email.dto';
 
 @Injectable()
 export class UserRepositoryPrisma implements UserRepository {

@@ -10,7 +10,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { FindByEmailDto } from './dto/find-by-email-dto';
+import { FindByEmailDto } from './dto/find-by-email.dto';
 import { Public } from 'decorators/publicRoutes';
 
 @Controller('users')

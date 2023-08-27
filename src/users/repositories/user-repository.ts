@@ -1,6 +1,6 @@
 import { UpdateUserDto } from 'users/dto/update-user.dto';
 import { User } from '../entities/user.entity';
-import { FindByEmailDto } from 'users/dto/find-by-email-dto';
+import { FindByEmailDto } from 'users/dto/find-by-email.dto';
 
 export abstract class UserRepository {
   abstract create(user: User): Promise<void>;
