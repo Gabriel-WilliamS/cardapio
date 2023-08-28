@@ -18,10 +18,10 @@ export class MenuController {
   constructor(private readonly menuService: MenuService) {}
 
   @Post()
-  create(@Body() createMenuDto: CreateMenuDto, @Request() req: IRequest) {
+  create(@Body() { name }: CreateMenuDto, @Request() req: IRequest) {
     const menu = {
       userId: req.user.id,
-      name: createMenuDto.name,
+      name,
     };
     return this.menuService.create(menu);
   }
