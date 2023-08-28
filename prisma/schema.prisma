@@ -11,13 +11,14 @@ datasource db {
 }
 
 model User {
-  id        String   @id
-  email     String   @unique
+  id        String     @id
+  email     String     @unique
   name      String
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   Menu      Menu[]
+  Category  Category[]
 
   @@map("users")
 }
@@ -65,6 +66,8 @@ model MenusOnProducts {
 model Category {
   id        String    @id
   name      String
+  User      User      @relation(fields: [userId], references: [id])
+  userId    String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Product   Product[]
