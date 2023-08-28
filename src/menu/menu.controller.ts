@@ -1,7 +1,17 @@
-import { Controller, Post, Body, Request } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Request,
+  Get,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { MenuService } from './menu.service';
 import { CreateMenuDto } from './dto/create-menu.dto';
 import { IRequest } from 'global/types';
+import { UpdateMenuDto } from './dto/update-menu.dto';
 
 @Controller('menu')
 export class MenuController {
@@ -16,28 +26,22 @@ export class MenuController {
     return this.menuService.create(menu);
   }
 
-  // @Get('findByEmail')
-  // findByEmail(@Body() findByEmailDto: FindByEmailDto) {
-  //   return this.usersService.findByEmail(findByEmailDto);
-  // }
+  @Get()
+  findAll(@Request() req: IRequest) {
+    return this.menuService.findAll(req.user.id);
+  }
 
-  // @Get()
-  // findAll() {
-  //   return this.usersService.findAll();
-  // }
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Request() req: IRequest,
+    @Body() { name }: UpdateMenuDto,
+  ) {
+    return this.menuService.update({ id, name, userId: req.user.id });
+  }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.usersService.findOne(id);
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.usersService.update(id, updateUserDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.usersService.remove(id);
-  // }
+  @Delete(':id')
+  remove(@Param('id') id: string, @Request() req: IRequest) {
+    return this.menuService.remove({ id, userId: req.user.id });
+  }
 }

@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'database/prisma.service';
 import { MenuRepository } from '../menu-repository';
 import { Menu } from 'menu/entities/menu.entity';
@@ -23,16 +27,55 @@ export class MenuRepositoryPrisma implements MenuRepository {
     }
   }
 
-  update(): Promise<void> {
-    throw new Error('Method not implemented.');
+  async update(menu: Menu): Promise<void> {
+    try {
+      await this.prisma.menu.update({
+        where: {
+          id: menu.id,
+          userId: menu.userId,
+        },
+        data: {
+          name: menu.name,
+        },
+      });
+    } catch (error) {
+      throw new BadRequestException('Something bad happened', {
+        cause: new Error(error),
+        description: 'Some error description',
+      });
+    }
   }
-  delete(): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async delete(menu: Omit<Menu, 'name'>): Promise<void> {
+    try {
+      await this.prisma.menu.delete({
+        where: {
+          id: menu.id,
+          userId: menu.userId,
+        },
+      });
+    } catch (error) {
+      throw new NotFoundException({
+        cause: new Error(error),
+        description: 'Menu not found',
+      });
+    }
   }
-  find(): Promise<Menu> {
-    throw new Error('Method not implemented.');
-  }
-  findAll(): Promise<Menu[]> {
-    throw new Error('Method not implemented.');
+
+  async findAll(userId: string): Promise<Menu[]> {
+    try {
+      const menus = await this.prisma.menu.findMany({
+        where: {
+          userId,
+        },
+      });
+
+      return menus;
+    } catch (error) {
+      throw new BadRequestException('Something bad happened', {
+        cause: new Error(error),
+        description: 'Some error description',
+      });
+    }
   }
 }
